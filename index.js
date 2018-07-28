@@ -27,8 +27,9 @@ bot.hears('hi', (ctx) => ctx.reply('Hey there'))
 
 bot.on('inline_query', async ({ inlineQuery, answerInlineQuery }) => {
   const offset = parseInt(inlineQuery.offset) || 0
-  const post = await getInterestingInfoFromUrl(ctx.message.text)
+  const post = await getInterestingInfoFromUrl(inlineQuery.query, offset, 30)
   const results = {title: post.title, photo_url: post.url}
+  console.log(results);
   return answerInlineQuery(results, {next_offset: offset + 30})
 })
 
