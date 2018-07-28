@@ -54,6 +54,7 @@ module.exports.getPostMediaUrl = getPostMediaUrl;
 const getInterestingInfoFromUrl = async(url) => {
     let newUrl = editUrl(url);
     let postJson = await getPostJson(newUrl);
+    
     return {"title": getPostTitle(postJson), "url": getPostMediaUrl(postJson)}
 
 }
