@@ -38,19 +38,12 @@ bot.on('inline_query', async ({inlineQuery, answerInlineQuery}) => {
         thumb_url: post.url
       }
     ]
+    console.log(results);
     return answerInlineQuery(results, {
       next_offset: offset + 30
     })
   } catch (err) {
-    return answerInlineQuery([
-      {
-        type: "text",
-        id: 404,
-        title: "something went wrong"
-      }
-    ], {
-      next_offset: offset + 30
-    })
+    console.log(err);
   }
 })
 
