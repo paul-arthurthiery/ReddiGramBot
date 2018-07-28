@@ -1,0 +1,31 @@
+{
+  "name": "ReddiGramBot",
+  "version": "1.0.0",
+  "description": "Nifty Telegram bot which sends the post title and media",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "npm test && node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paul-arthurthiery/ReddiGramBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paul-arthurthiery/ReddiGramBot/issues"
+  },
+  "homepage": "https://github.com/paul-arthurthiery/ReddiGramBot#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^6.0.0",
+    "telegraf": "^3.21.2"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.15.0",
+    "jest": "^23.4.1",
+    "readline-sync": "^1.4.9"
+  }
+}
