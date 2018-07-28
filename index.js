@@ -25,12 +25,33 @@ bot.hears(/.reddit.com/, async (ctx) => {
 bot.on('sticker', (ctx) => ctx.reply('👍'))
 bot.hears('hi', (ctx) => ctx.reply('Hey there'))
 
-bot.on('inline_query', async ({ inlineQuery, answerInlineQuery }) => {
+bot.on('inline_query', async ({inlineQuery, answerInlineQuery}) => {
   const offset = parseInt(inlineQuery.offset) || 0
-  const post = await getInterestingInfoFromUrl(inlineQuery.query, offset, 30)
-  const results = {title: post.title, photo_url: post.url}
-  console.log(results);
-  return answerInlineQuery(results, {next_offset: offset + 30})
+  try {
+    const post = await getInterestingInfoFromUrl(inlineQuery.query, offset, 30)
+    const results = [
+      {
+        type: "photo",
+        id: post.id,
+        title: post.title,
+        photo_url: post.url,
+      }
+    ]
+    console.log(results);
+    return answerInlineQuery(results, {
+      next_offset: offset + 30
+    })
+  } catch (err) {
+    return answerInlineQuery([
+      {
+        type: "text",
+        id: 404,
+        title: "something went wrong"
+      }
+    ], {
+      next_offset: offset + 30
+    })
+  }
 })
 
 bot.startPolling()

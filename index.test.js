@@ -1,4 +1,4 @@
-const { editUrl, getPostJson, getPostTitle, getPostMediaUrl, getInterestingInfoFromUrl } = require('./redditService');
+const { editUrl, getPostJson, getPostTitle, getPostMediaUrl, getInterestingInfoFromUrl, getPostId } = require('./redditService');
 const axios = require('axios');
 //const MockAdapter = require('axios-mock-adapter');
 
@@ -31,9 +31,15 @@ test('gets proper media url', async () => {
     expect(getPostMediaUrl(data)).toBe("https://i.redd.it/kjkl4sqihy911.png");
 })
 
+test('gets proper id', async () => {
+
+    const data = await getPostJson('https://www.reddit.com/by_id/t3_8yvazn.json');
+    expect(getPostId(data)).toBe("t3_8yvazn");
+})
+
 //DONE:0 getInterestingInfoFromUrl test
 test('gets object for telegraf', async () => {
 
     const interestingInfo = await getInterestingInfoFromUrl('https://ww.reddit.com/r/surrealmemes/comments/8yvazn/need_a_drinc_how_about_a_corc/');
-    expect(interestingInfo).toEqual({title: "Need a drinc? How about a CORC™?", url: "https://i.redd.it/kjkl4sqihy911.png"});
+    expect(interestingInfo).toEqual({id:"t3_8yvazn", title: "Need a drinc? How about a CORC™?", url: "https://i.redd.it/kjkl4sqihy911.png"});
 })
