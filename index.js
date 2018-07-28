@@ -2,7 +2,7 @@ const Telegraf = require('telegraf')
 require('dotenv').config();
 const {getInterestingInfoFromUrl} = require('./redditService');
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Telegraf(process.env.BOT_TOKEN, {username: process.env.USERNAME})
 
 bot.start((ctx) => ctx.reply('Welcome! Send me a reddit post url and I will give you some info about the post'))
 bot.hears(/.reddit.com/, async (ctx) => {
