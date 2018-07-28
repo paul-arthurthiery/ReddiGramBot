@@ -35,7 +35,8 @@ bot.on('inline_query', async ({inlineQuery, answerInlineQuery}) => {
         id: post.id,
         title: post.title,
         photo_url: post.url,
-        thumb_url: post.url
+        thumb_url: post.url,
+        caption: post.title
       }
     ]
     console.log(results);
