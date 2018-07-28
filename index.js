@@ -22,9 +22,14 @@ bot.hears(/.reddit.com/, async (ctx) => {
   }
 
 })
-//bot.help((ctx) => ctx.reply('Send me a sticker'))
 bot.on('sticker', (ctx) => ctx.reply('👍'))
 bot.hears('hi', (ctx) => ctx.reply('Hey there'))
-//bot.hears(/buy/i, (ctx) => ctx.reply('Buy-buy'))
+
+bot.on('inline_query', async ({ inlineQuery, answerInlineQuery }) => {
+  const offset = parseInt(inlineQuery.offset) || 0
+  const post = await getInterestingInfoFromUrl(ctx.message.text)
+  const results = {title: post.title, photo_url: post.url}
+  return answerInlineQuery(results, {next_offset: offset + 30})
+})
 
 bot.startPolling()
