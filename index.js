@@ -38,7 +38,6 @@ bot.on('inline_query', async ({inlineQuery, answerInlineQuery}) => {
         thumb_url: post.url
       }
     ]
-    console.log(results);
     return answerInlineQuery(results, {
       next_offset: offset + 30
     })
