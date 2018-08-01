@@ -1,6 +1,6 @@
 var axios = require('axios');
 
-//DONE:30 editUrl
+//DONE: editUrl id:5
 //get the proper url for reddit post's json object
 const editUrl = (url) => {
 
@@ -14,7 +14,7 @@ const editUrl = (url) => {
 
 module.exports.editUrl = editUrl;
 
-//DONE:60 getPostJson
+//DONE: getPostJson id:2
 //call the url and parse the useful json data
 const getPostJson = (url) => {
   let postObject = {
@@ -42,7 +42,7 @@ const getPostJson = (url) => {
 
 module.exports.getPostJson = getPostJson;
 
-// DONE:20 getPostTitle
+// DONE: getPostTitle id:8
 //return the post's title
 const getPostTitle = (postObject) => {
   let title = postObject.title;
@@ -51,7 +51,7 @@ const getPostTitle = (postObject) => {
 
 module.exports.getPostTitle = getPostTitle;
 
-// DOING:0 add media support
+// DOING: add media support id:11
 const getPostMediaUrl = (postObject) => {
   let mediaUrl = postObject.url;
   return mediaUrl;
@@ -66,7 +66,7 @@ const getPostId = (postObject) => {
 
 module.exports.getPostId = getPostId;
 
-// DONE:10 getInterestingInfoFromUrl
+// DONE: getInterestingInfoFromUrl id:14
 const getInterestingInfoFromUrl = async (url) => {
   let newUrl = editUrl(url);
   let postJson = await getPostJson(newUrl);

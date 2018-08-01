@@ -3,13 +3,13 @@ const axios = require('axios');
 //const MockAdapter = require('axios-mock-adapter');
 
 
-//DONE:50 editUrl test
+//DONE: editUrl test id:1
 test('creates proper url', () => {
     expect(editUrl('https://ww.reddit.com/r/surrealmemes/comments/8yvazn/need_a_drinc_how_about_a_corc/')).toBe('https://www.reddit.com/by_id/t3_8yvazn.json')
     expect(editUrl('https://www.reddit.com/r/redditdev/comments/23cqir/how_to_get_json_data_for_the_post_only_not_the/')).toBe('https://www.reddit.com/by_id/t3_23cqir.json')
 })
 
-//DONE:70 getPostJson test
+//DONE: getPostJson test id:7
 test('returns correct object', async () => {
     expect.assertions(1);
 
@@ -18,7 +18,7 @@ test('returns correct object', async () => {
 
 } )
 
-//DONE:40 getPostTitle test
+//DONE: getPostTitle test id:10
 test('gets proper title', async () => {
 
     const data = await getPostJson('https://www.reddit.com/by_id/t3_8yvazn.json');
@@ -37,7 +37,7 @@ test('gets proper id', async () => {
     expect(getPostId(data)).toBe("t3_8yvazn");
 })
 
-//DONE:0 getInterestingInfoFromUrl test
+//DONE: getInterestingInfoFromUrl test id:13
 test('gets object for telegraf', async () => {
 
     const interestingInfo = await getInterestingInfoFromUrl('https://ww.reddit.com/r/surrealmemes/comments/8yvazn/need_a_drinc_how_about_a_corc/');
