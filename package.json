@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "npm test && node index.js"
+    "start": "npm test && node index.js",
+    "watch-test": "nodemon --watch . --exec 'npm start || true'"
   },
   "repository": {
     "type": "git",

@@ -4,17 +4,21 @@ var axios = require('axios');
 //get the proper url for reddit post's json object
 const editUrl = (url) => {
 
-  if (url.match('(?:[^\/]*(?:\/)){6}([^\/]+)')[1]) {
-    let originalUrl = url.match('(?:[^\/]*(?:\/)){6}([^\/]+)')[1];
-    newUrl = 'https://www.reddit.com/by_id/t3_' + originalUrl + '.json'
-  } else
-    throw 'Incorrect Url';
-  return newUrl;
+  try {
+    if (url.match('(?:[^\/]*(?:\/)){6}([^\/]+)')[1]) {
+      let originalUrl = url.match('(?:[^\/]*(?:\/)){6}([^\/]+)')[1];
+      newUrl = 'https://www.reddit.com/by_id/t3_' + originalUrl + '.json';
+      return newUrl;
+    }
+  } catch (err) {
+    throw err;
+  }
+
 }
 
 module.exports.editUrl = editUrl;
 
-//DONE:60 getPostJson
+//DONE:70 getPostJson
 //call the url and parse the useful json data
 const getPostJson = (url) => {
   let postObject = {
@@ -51,7 +55,7 @@ const getPostTitle = (postObject) => {
 
 module.exports.getPostTitle = getPostTitle;
 
-// DOING:0 add media support
+// DONE:50 add media support
 const getPostMediaUrl = (postObject) => {
   let mediaUrl = postObject.url;
   return mediaUrl;
