@@ -1,6 +1,6 @@
 {
   "name": "ReddiGramBot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Nifty Telegram bot which sends the post title and media",
   "main": "index.js",
   "scripts": {
