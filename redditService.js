@@ -1,6 +1,6 @@
 var axios = require('axios');
 
-//DONE:30 editUrl
+//DONE:50 editUrl
 //get the proper url for reddit post's json object
 const editUrl = (url) => {
 
@@ -18,7 +18,7 @@ const editUrl = (url) => {
 
 module.exports.editUrl = editUrl;
 
-//DONE:70 getPostJson
+//DONE:90 getPostJson
 //call the url and parse the useful json data
 const getPostJson = (url) => {
   let postObject = {
@@ -46,7 +46,7 @@ const getPostJson = (url) => {
 
 module.exports.getPostJson = getPostJson;
 
-// DONE:20 getPostTitle
+// DONE:40 getPostTitle
 //return the post's title
 const getPostTitle = (postObject) => {
   let title = postObject.title;
@@ -55,7 +55,8 @@ const getPostTitle = (postObject) => {
 
 module.exports.getPostTitle = getPostTitle;
 
-// DONE:50 add media support
+// DONE:70 add media support
+// get media url in order to display media
 const getPostMediaUrl = (postObject) => {
   let mediaUrl = postObject.url;
   return mediaUrl;
@@ -63,6 +64,7 @@ const getPostMediaUrl = (postObject) => {
 
 module.exports.getPostMediaUrl = getPostMediaUrl;
 
+//parse postId from url in order to respect Telegram's bot API
 const getPostId = (postObject) => {
   let id = postObject.name;
   return id;
@@ -70,7 +72,8 @@ const getPostId = (postObject) => {
 
 module.exports.getPostId = getPostId;
 
-// DONE:10 getInterestingInfoFromUrl
+// DONE:30 getInterestingInfoFromUrl
+// store all post "Interesting info" as a single object. this should grow as I discover what to do with all the info and I want to display more stuff
 const getInterestingInfoFromUrl = async (url) => {
   let newUrl = editUrl(url);
   let postJson = await getPostJson(newUrl);

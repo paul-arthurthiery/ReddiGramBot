@@ -4,7 +4,9 @@ const {getInterestingInfoFromUrl} = require('./redditService');
 
 const bot = new Telegraf(process.env.BOT_TOKEN, {username: process.env.USERNAME})
 
-//TODO: add post hyperlink to title in Markdown
+//DONE:0 add post hyperlink to title in Markdown
+//TODO: transfer stuff to api side
+//TODO: add gif support 😎
 
 bot.start((ctx) => ctx.reply('Welcome! Send me a reddit post url and I will give you some info about the post'))
 bot.hears(/.reddit.com/, async (ctx) => {
