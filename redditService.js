@@ -39,7 +39,12 @@ const getPostJson = (url) => {
 module.exports.getPostJson = getPostJson;
 
 // return the post's title
-const getPostTitle = postObject => postObject.title;
+const getPostTitle = (postObject) => {
+  if (postObject.title.length > 103) {
+    return `${postObject.title.slice(0, 100)}...`;
+  }
+  return postObject.title;
+};
 module.exports.getPostTitle = getPostTitle;
 
 // get media url in order to display media
