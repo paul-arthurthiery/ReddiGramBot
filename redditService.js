@@ -15,22 +15,28 @@ module.exports.editUrl = editUrl;
 
 // call the url and parse the useful json data
 const getPostJson = (url) => {
-  let postObject = {
-    selftext: null,
-    title: null,
-    url: null,
-    score: null,
-  };
-
-  return axios.get(url).then((res) => {
-    const actualStuff = res.data.data.children[0].data;
-    postObject = {
-      id: actualStuff.id,
-      selftext: actualStuff.selftext,
-      title: actualStuff.title,
-      url: actualStuff.url,
-      score: actualStuff.score,
+  const newUrl = editUrl(url);
+  return axios.get(newUrl).then((res) => {
+    const redditJSON = res.data.data.children[0].data;
+    const postObject = {
+      id: redditJSON.id,
+      title: redditJSON.title,
     };
+    let mediaUrl = (redditJSON.media && redditJSON.media.reddit_video)
+      ? redditJSON.media.reddit_video.fallback_url
+      : redditJSON.url;
+    if (mediaUrl.includes('gfycat') && !mediaUrl.includes('giant')) {
+      mediaUrl = `https://giant.gfycat.com/${mediaUrl.match('[a-zA-Z]*$')[0]}.mp4`;
+    }
+    postObject.url = mediaUrl;
+    postObject.thumb_url = redditJSON.thumbnail ? redditJSON.thumbnail : mediaUrl;
+
+    if ((redditJSON.media && redditJSON.media.reddit_video && redditJSON.media.reddit_video.is_gif)
+      || (redditJSON.media && redditJSON.media.oembed && redditJSON.media.oembed.type === 'video' && !redditJSON.media.is_video)
+      || (postObject.url.slice(-4) === '.gif')) postObject.type = 'gif';
+    else if (redditJSON.is_video) postObject.type = 'video';
+    else postObject.type = 'photo';
+
     return postObject;
   }).catch((err) => {
     throw (err);
@@ -38,60 +44,45 @@ const getPostJson = (url) => {
 };
 module.exports.getPostJson = getPostJson;
 
-// return the post's title
-const getPostTitle = (postObject) => {
-  if (postObject.title.length > 103) {
-    return `${postObject.title.slice(0, 100)}...`;
-  }
-  return postObject.title;
-};
-module.exports.getPostTitle = getPostTitle;
-
-// get media url in order to display media
-const getPostMediaUrl = postObject => postObject.url;
-module.exports.getPostMediaUrl = getPostMediaUrl;
-
-// parse postId from url in order to respect Telegram's bot API
-const getPostId = postObject => postObject.id;
-module.exports.getPostId = getPostId;
-
-// store all post "Interesting info" as a single object.
-// this should grow as I discover what to do with all the info and I want to display more stuff
-const getInterestingInfoFromUrl = async (url) => {
-  const newUrl = editUrl(url);
-  const postJson = await getPostJson(newUrl);
-
-  return { id: getPostId(postJson), title: getPostTitle(postJson), url: getPostMediaUrl(postJson) };
-};
-module.exports.getInterestingInfoFromUrl = getInterestingInfoFromUrl;
-
 // return an object useable by telegraf's ctx wrapper (direct conversation version)
 const getParsedRedditPost = async (url) => {
-  const post = await getInterestingInfoFromUrl(url);
+  const post = await getPostJson(url);
   if (post.url) {
     return ({
+      id: post.id,
       media: post.url,
       caption: `[${post.title}](${url})`,
       parse_mode: 'Markdown',
+      type: post.type,
     });
   }
   return (`[${post.title}](${url})`);
 };
 module.exports.getParsedRedditPost = getParsedRedditPost;
 
+
+// return an object useable by telegraf's ctx wrapper (inline version)
 const getInlineParsedRedditPost = async (url) => {
-  const post = await getInterestingInfoFromUrl(url);
-  const results = [
-    {
-      type: 'photo',
-      id: post.id,
-      title: post.title,
-      photo_url: post.url,
-      thumb_url: post.url,
-      parse_mode: 'markdown',
-      caption: `[${post.title}](${url})`,
-    },
-  ];
+  const post = await getPostJson(url);
+  const results = [{
+    type: post.type,
+    id: post.id,
+    title: post.title,
+    thumb_url: post.thumb_url,
+    parse_mode: 'markdown',
+    caption: `[${post.title}](${url})`,
+  }];
+  switch (post.type) {
+    case 'gif':
+      results[0].gif_url = post.url;
+      break;
+    case 'video':
+      results[0].video_url = post.url;
+      break;
+    default:
+      results[0].photo_url = post.url;
+      break;
+  }
   return results;
 };
 module.exports.getInlineParsedRedditPost = getInlineParsedRedditPost;
