@@ -27,6 +27,8 @@ const getPostJson = (url) => {
       : redditJSON.url;
     if (mediaUrl.includes('gfycat') && !mediaUrl.includes('giant')) {
       mediaUrl = `https://giant.gfycat.com/${mediaUrl.match('[a-zA-Z]*$')[0]}.mp4`;
+    } else if (mediaUrl.includes('imgur')) {
+      mediaUrl = mediaUrl.replace('.gifv', '.mp4');
     }
     postObject.url = mediaUrl;
     postObject.thumb_url = redditJSON.thumbnail ? redditJSON.thumbnail : mediaUrl;
@@ -34,7 +36,7 @@ const getPostJson = (url) => {
     if ((redditJSON.media && redditJSON.media.reddit_video && redditJSON.media.reddit_video.is_gif)
       || (redditJSON.media && redditJSON.media.oembed && redditJSON.media.oembed.type === 'video' && !redditJSON.media.is_video)
       || (postObject.url.slice(-4) === '.gif')) postObject.type = 'gif';
-    else if (redditJSON.is_video) postObject.type = 'video';
+    else if (redditJSON.is_video || postObject.url.slice(-4) === '.mp4') postObject.type = 'video';
     else postObject.type = 'photo';
 
     return postObject;

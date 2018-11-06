@@ -28,11 +28,11 @@ if (process.env.NODE_ENV !== 'production') {
   }));
 }
 
-// TODO:20 add gif support 😎
 bot.start(ctx => ctx.reply('Welcome! Send me a reddit post url and I will reply with a parsed version'));
 bot.hears(/.reddit.com/, async (ctx) => {
   try {
     const reply = await getParsedRedditPost(ctx.message.text);
+    console.log(reply);
     if (reply.media) {
       const parameters = {
         caption: reply.caption,
@@ -49,6 +49,7 @@ bot.hears(/.reddit.com/, async (ctx) => {
       logger.error(`Someone blocked this bot at ${ctx.message.text}`);
     } else {
       const reply = 'Something went wrong while searching for the post';
+      logger.error(err);
       ctx.reply(reply);
     }
   }
