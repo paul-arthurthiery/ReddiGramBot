@@ -103,5 +103,6 @@ test('proper reply fed to telegraf for inline media link', async () => {
     thumb_url: 'https://b.thumbs.redditmedia.com/Dw4A5l1l9xuDs_WAqMyC9Zv-Wy9WO93ZyhRsNzuPkgM.jpg',
     parse_mode: 'markdown',
     caption: '[My birds are jerks](https://www.reddit.com/r/AnimalsBeingJerks/comments/987a2z/my_birds_are_jerks/)',
+    mime_type: 'video/mp4',
   }]);
 });

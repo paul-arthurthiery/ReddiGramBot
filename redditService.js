@@ -80,6 +80,7 @@ const getInlineParsedRedditPost = async (url) => {
       break;
     case 'video':
       results[0].video_url = post.url;
+      results[0].mime_type = 'video/mp4';
       break;
     default:
       results[0].photo_url = post.url;

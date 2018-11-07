@@ -32,7 +32,6 @@ bot.start(ctx => ctx.reply('Welcome! Send me a reddit post url and I will reply 
 bot.hears(/.reddit.com/, async (ctx) => {
   try {
     const reply = await getParsedRedditPost(ctx.message.text);
-    console.log(reply);
     if (reply.media) {
       const parameters = {
         caption: reply.caption,
